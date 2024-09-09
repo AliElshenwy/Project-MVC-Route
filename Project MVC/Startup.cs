@@ -1,3 +1,5 @@
+using Demo.BLL.Interface;
+using Demo.BLL.Repositores;
 using Dome.DAL.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -33,14 +35,11 @@ namespace Project_MVC
            // services.AddScoped<AppDbContext>(); //per Request 
             services.AddDbContext<AppDbContext>(option=>
             {
-
                 // Go AppSetting Connectiong String 
                 option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-
-
             }); //Default ==> Scoped
 
-
+            services.AddScoped<IDepartmentRepository, IDepartmnetRepository>();
 
         }
 

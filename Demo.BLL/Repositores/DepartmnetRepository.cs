@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace Demo.BLL.Repositores
 {
-    public class DepartmnetRepository : IDepartmentRepository
+    public class IDepartmnetRepository : IDepartmentRepository
     {
         private readonly AppDbContext _dbContext;
 
-        public DepartmnetRepository(AppDbContext dbComtext )    // Ask CLR For Create Object frpm DbContext
+        public IDepartmnetRepository(AppDbContext dbComtext )    // Ask CLR For Create Object frpm DbContext
         {
            // _dbContext = new AppDbContext();
            // 

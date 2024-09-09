@@ -1,17 +1,25 @@
-﻿using Demo.BLL.Repositores;
+﻿using Demo.BLL.Interface;
+using Demo.BLL.Repositores;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Project_MVC.Controllers
 {
     public class DepartmentController : Controller
     {
-        private DepartmnetRepository _departmnetRepository;
+        private readonly IDepartmentRepository _departmnetRepository;  //Default Null ,//Call DepartmnentRepository 
+        public DepartmentController(IDepartmentRepository repository)
+        {
+            _departmnetRepository = repository;
+        }
+
+
+        // BaseUrl/department/Index
         public IActionResult Index()
         {
             // GetAll()
-            _departmnetRepository.GetAll();
+           var departments =_departmnetRepository.GetAll();
             
-            return View();
+            return View(departments);
         }
     }
 }
