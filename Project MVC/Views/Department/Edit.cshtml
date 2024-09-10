@@ -1,0 +1,30 @@
+﻿@model Department
+
+<h1>Edit Department </h1>
+<br />
+<br />  
+<br />
+<form asp-action="Edit">
+    @* Defulat post*@
+
+
+    <div asp-validation-summary="All"></div> @* Or All *@
+
+    <div>
+        <label class="col-form-lable" asp-for="Code"></label>   @*Link Input by code(Id)*@
+        <input type="text" asp-for="Code" class="form-control" />
+        <span asp-validation-for="Code" class="text-danger"></span>       @*Validation Date *@
+    </div>
+    <div>
+        <label class="col-form-label" asp-for="Name"></label>
+        <input type="text" asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div>
+        <label class="col-form-lable" asp-for="DateOfCreation"></label>
+        <input asp-for="DateOfCreation" class=" form-control" />
+    </div>
+    <input type="submit" value="Save" class="btn btn-primary mt-5" />
+    <a asp-action="Index" class="btn btn-light mt-5">Back To List </a>
+
+</form>
