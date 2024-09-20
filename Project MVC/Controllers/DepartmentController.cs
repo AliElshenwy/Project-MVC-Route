@@ -37,24 +37,22 @@ namespace Project_MVC.Controllers
         {
             return View();
         }
-                [HttpPost]
+
+        [HttpPost]
         public IActionResult Create(Department department)
         {
             if (ModelState.IsValid)
-            {
+            { 
                var Count = _departmnetRepository.Add(department);
-                    if(Count > 0 )
-                    {
-                       return RedirectToAction(nameof(Index));
-                    }
+                if(Count > 0 )
+                 {
+                   return RedirectToAction(nameof(Index));
+                 }
                    
             }
             return View(department);
         }
          
-
-
-
 
         //Department/Details/ Id
         [HttpGet]
@@ -67,6 +65,7 @@ namespace Project_MVC.Controllers
            var department = _departmnetRepository.GetById(id.Value); // Chech Date
             if (department == null)
             {
+
                 return NotFound();  //Error 404
             }
             return View( viewName,department);
@@ -123,8 +122,6 @@ namespace Project_MVC.Controllers
                 return View(department);    
             }
         }
-
-
         [HttpGet]
         public IActionResult Delete(int ? id)
         {

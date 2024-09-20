@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Dome.DAL.Models
 {
-    public class Department
+    public class Department: ModelBase
     {
-        public int Id { get; set; }
+       
         [Required(ErrorMessage ="Code Is Requird")]
         public string Code { get; set; }
         [Required(ErrorMessage ="Name Is Required")]

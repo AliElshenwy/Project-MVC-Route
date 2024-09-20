@@ -26,9 +26,11 @@ namespace Dome.DAL.Data
         {
             //Fluent Api
            // modelBuilder.ApplyConfiguration<Department>(new DepartmentConfigurations() ); //one Configuration
+
             modelBuilder.ApplyConfigurationsFromAssembly(System.Reflection.Assembly.GetExecutingAssembly());  // All Configuration 
             base.OnModelCreating(modelBuilder);
         }
        public DbSet<Department>Departments { get; set; }
+       public DbSet<Employee> Employees { get; set; }
     }
 }

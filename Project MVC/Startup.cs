@@ -29,7 +29,8 @@ namespace Project_MVC
         {
 
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews();  // MVC
+
             // Create Clr Object  
             //services.AddSingleton<AppDbContext>();  //per Application
            // services.AddScoped<AppDbContext>(); //per Request 
@@ -39,8 +40,8 @@ namespace Project_MVC
                 option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             }); //Default ==> Scoped
 
-            services.AddScoped<IDepartmentRepository, IDepartmnetRepository>();
-
+            services.AddScoped<IDepartmentRepository,IDepartmnetRepository>();
+            services.AddScoped<IEmployeeRepository,EmployeeRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

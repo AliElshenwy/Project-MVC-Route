@@ -10,44 +10,16 @@ using System.Threading.Tasks;
 
 namespace Demo.BLL.Repositores
 {
-    public class IDepartmnetRepository : IDepartmentRepository
+    public class IDepartmnetRepository : GeneicRopository<Department>, IDepartmentRepository
     {
         private readonly AppDbContext _dbContext;
 
-        public IDepartmnetRepository(AppDbContext dbComtext )    // Ask CLR For Create Object frpm DbContext
+        public IDepartmnetRepository(AppDbContext dbComtext ):base(dbComtext)    // Ask CLR For Create Object frpm DbContext
         {
            // _dbContext = new AppDbContext();
-           // 
-           _dbContext = dbComtext;   // DJ
+           
+          // _dbContext = dbComtext;   // DJ
         }
-        public int Add(Department department)
-        {
-           _dbContext.Departments.Add(department);  //State Add
-            return _dbContext.SaveChanges();    
-        }
-
-        public int Delete(Department department)
-        {
-            _dbContext.Departments.Remove(department);
-            return _dbContext.SaveChanges();
-        }
-
-        public IEnumerable<Department> GetAll() 
-        { 
-           return _dbContext.Departments.AsNoTracking().ToList();
-        }
-
-        public Department GetById(int id)
-        {
-            return _dbContext.Departments.Find(id);
-            //return _dbContext.Find<Department>(id); 
-            
-        }
-
-        public int Update(Department department)
-        {
-            _dbContext.Departments.Update(department);
-            return _dbContext.SaveChanges();    
-        }
+        
     }
 }
