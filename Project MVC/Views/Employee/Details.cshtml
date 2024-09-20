@@ -1,0 +1,15 @@
+﻿@model Employee
+
+<h1> Employee Details</h1>
+<br/>
+<br/>
+
+<form asp-action="Details" >
+<div>
+        <partial name="PartialView/DetailsDeletedEmployeePartial"></partial>
+
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary mt-5">Edit</a>
+    <a asp-action="Index" class="btn btn-light mt-5">Back To List </a>
+</div>
+
+</form>

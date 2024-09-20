@@ -1,3 +1,5 @@
+using Demo.BLL.Interface;
+using Demo.BLL.Repositores;
 using Dome.DAL.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,21 +29,19 @@ namespace Project_MVC
         {
 
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews();  // MVC
+
             // Create Clr Object  
             //services.AddSingleton<AppDbContext>();  //per Application
            // services.AddScoped<AppDbContext>(); //per Request 
             services.AddDbContext<AppDbContext>(option=>
             {
-
                 // Go AppSetting Connectiong String 
                 option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-
-
             }); //Default ==> Scoped
 
-
-
+            services.AddScoped<IDepartmentRepository,IDepartmnetRepository>();
+            services.AddScoped<IEmployeeRepository,EmployeeRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

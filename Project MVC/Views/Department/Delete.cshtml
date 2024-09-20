@@ -1,0 +1,27 @@
+﻿@model Department
+
+<h1>Delete Detete</h1>
+ <br />
+ <br />
+ <br />
+<form asp-action="Delete" asp-route-id="@Model.Id" >
+<div>
+    <div>
+        <label class="col-form-lable" asp-for="Code"></label>
+        <input type="text" asp-for="Code" class="form-control" readonly />
+
+    </div>
+    <div>
+        <label class="col-form-label" asp-for="Name"></label>
+        <input type="text" asp-for="Name" class="form-control" readonly />
+
+    </div>
+    <div>
+        <label class="col-form-lable" asp-for="DateOfCreation"></label>
+        <input asp-for="DateOfCreation" class=" form-control" readonly />
+    </div>
+
+    <input type="submit" value="Delete" class="btn btn-danger mt-5"/>
+    <a asp-action="Index" class="btn btn-primary mt-5"> Cancel</a>
+</div>
+</form>

@@ -1,0 +1,26 @@
+﻿@model Employee
+
+<h1>Edit Employee </h1>
+<br />
+<br />  
+<br />
+<form asp-action="Edit">
+    @* Defulat post*@
+
+
+    <div asp-validation-summary="All"></div> @* Or All *@
+
+    <partial name="PartialView/CreateEditEmployeePartial" ></partial>
+   
+
+    <input type="submit" value="Save" class="btn btn-primary mt-5" />
+    <a asp-action="Index" class="btn btn-light mt-5">Back To List </a>
+
+</form>
+
+@section ValidationSection
+{
+
+    
+    <partial name="_ValidationScriptsPartial"></partial>
+}
