@@ -1,3 +1,5 @@
+using Demo.BLL.Interface;
+using Demo.BLL.Repositores;
 using Dome.DAL.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -6,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Project_MVC.Extensions;
+using Project_MVC.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,20 +31,21 @@ namespace Project_MVC
         {
 
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews();  // MVC
+
             // Create Clr Object  
             //services.AddSingleton<AppDbContext>();  //per Application
            // services.AddScoped<AppDbContext>(); //per Request 
             services.AddDbContext<AppDbContext>(option=>
             {
-
                 // Go AppSetting Connectiong String 
                 option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-
-
             }); //Default ==> Scoped
 
+         //   ApplicationServicesExtentions.AddApplictionServices(services);  //static Method
 
+            services.AddApplictionServices(); //Extention Method 
+            services.AddAutoMapper(M=>M.AddProfile(new mappingProfiles()));
 
         }
 

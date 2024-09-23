@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Department>
+
+<h1>All Departments </h1>
+<br />
+<br />
+<a asp-controller="Department" asp-action="Create" class=" btn btn-primary"> Create New Department</a>
+ 
+@if(Model.Count()>0)
+{
+  <table class=" table tabletable-hover table-striped">
+      <thead>
+          <tr>
+        <th>@Html.DisplayNameFor(D => D.Code)</th>
+        <th>@Html.DisplayNameFor(D => D.Name)</th>
+        <th>@Html.DisplayNameFor(D => D.DateOfCreation)</th>
+        <th>Details</th>
+        <th>Update</th>
+        <th>Detete</th>
+          </tr>
+        </thead>
+
+      <tbody>
+            @foreach (var detartment in Model)
+            {
+               <tr> 
+                   <td>@detartment.Code</td>
+                   <td>@detartment.Name</td> 
+                   <td>@detartment.DateOfCreation</td>
+                    <partial name="_ButtonPartial" model="@detartment.Id"></partial>
+               </tr> 
+            }
+        </tbody>
+    </table>
+} 
+else
+{
+    <div class="mt-5 alert alert-warning">
+        <h3>there is no Department </h3>
+    </div>
+}
