@@ -31,13 +31,23 @@ namespace Demo.BLL.Repositores
         }
         public IEnumerable<T> GetAll()
         {
-            return _DbContext.Set<T>().AsNoTracking().ToList();
+            if (typeof(T) == typeof(Employee))
+            {
+                return(IEnumerable<T>) _DbContext.Set<Employee>().Include(E =>E.department).AsNoTracking().ToList();
+            }
+            else
+            {
+                return _DbContext.Set<T>().AsNoTracking().ToList();
+            }
+          
         }
 
         public T GetById(int id)
         {
             return _DbContext.Find<T>(id);
         }
+
+       
 
         public int Update(T item)
         {

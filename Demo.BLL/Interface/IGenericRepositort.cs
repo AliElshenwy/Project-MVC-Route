@@ -16,6 +16,7 @@ namespace Demo.BLL.Interface
         int Add(T item);
         int Update(T item);
         int Delete(T item);
+        
     }
 }
 

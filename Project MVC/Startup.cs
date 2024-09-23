@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Project_MVC.Extensions;
+using Project_MVC.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,8 +42,11 @@ namespace Project_MVC
                 option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             }); //Default ==> Scoped
 
-            services.AddScoped<IDepartmentRepository,IDepartmnetRepository>();
-            services.AddScoped<IEmployeeRepository,EmployeeRepository>();
+         //   ApplicationServicesExtentions.AddApplictionServices(services);  //static Method
+
+            services.AddApplictionServices(); //Extention Method 
+            services.AddAutoMapper(M=>M.AddProfile(new mappingProfiles()));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

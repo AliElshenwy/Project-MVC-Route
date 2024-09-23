@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
@@ -10,59 +11,55 @@ using System.Threading.Tasks;
 
 namespace Dome.DAL.Models
 {
-    
-    public enum Gender 
+
+    public enum Gender
     {
         [EnumMember(Value = "Male")]
         Male = 1,
-        [EnumMember(Value ="Female")]
-        Female=2
+        [EnumMember(Value = "Female")]
+        Female = 2
     }
-   public enum EmployeeType     
+    public enum EmployeeType
     {
-        FullTime= 1,
-        PartTime= 2
+        FullTime = 1,
+        PartTime = 2
     }
-  public class Employee:ModelBase
+    public class Employee : ModelBase
     {
-       
-        [Required(ErrorMessage ="Name Is Required!")]
-        [MaxLength(50, ErrorMessage ="Max Lengthfor Name Is 50 ")]
-        [MinLength(3, ErrorMessage ="Min Lengthfor Name Is 3 ")]
+
+        [Required()]
+        [MaxLength(50)]
+     
         public string Name { get; set; }
+        [Range(21, 60)]
+        public int? Age { get; set; }
+       public string Address { get; set; }
 
 
-        [Range (21,60)]
-        public int? Age  { get; set; }
-
-
-        [RegularExpression(@"^[0-9]{1,3}-[a-zA-Z]{5,10}-[a-zA-Z]{4,10}-[a-zA-Z]{5,10}$",
-            ErrorMessage =" Address Must Be Like 123-Street-City-Country")]
-        public string  Address { get; set; }
-
-
-        [DataType(DataType.Currency)]
         public decimal Salary { get; set; }
 
 
-        public bool  IsActive { get; set; }
+        public bool IsActive { get; set; }
+
+        public string Email { get; set; }
 
 
-        [EmailAddress]
-        public string  Email { get; set; }
+       
+        public int PhoneNumber { get; set; }
 
 
-        [Phone]
-        [Display(Name="Phone Number")]
-        public int PhoneNumber  { get; set; }
+        public DateTime HireDate { get; set; }
+
+        public bool IsDeleted { get; set; } // soft Delete
 
 
-        [Display(Name="Hire Date")]
-        public DateTime  HireDate { get; set; }
+        public Gender Gender { get; set; }
 
-        public bool IsDeleted  { get; set; } // soft Delete
+        //Navgation property [one]
+       // [InverseProperty(nameof(Models.Department.employees))]
+        public Department department { get; set; }
+        public int? DepartmentId { get; set; }
 
 
-        public Gender Gender  { get; set; }
     }
 }

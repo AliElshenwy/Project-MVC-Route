@@ -16,7 +16,11 @@ namespace Dome.DAL.Data.Configuration
             //Fluent API S
 
            builder.Property(D=>D.Id).
-                UseIdentityColumn(10,10); 
+                UseIdentityColumn(10,10);
+            builder.HasMany(D=>D.employees)
+                   .WithOne(E=>E.department)
+                   .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }

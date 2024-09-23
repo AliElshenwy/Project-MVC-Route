@@ -23,6 +23,11 @@ namespace Demo.BLL.Repositores
         {
            return _DbContext.Employees.Where(E=>E.Address.ToLower().Contains(address.ToLower()));   
         }
+     
 
+        public IQueryable<Employee>SearchByName(string name)
+        {
+            return _DbContext.Employees.Where(E => E.Name.ToLower().Contains(name.ToLower()));
+        }
     }
 }

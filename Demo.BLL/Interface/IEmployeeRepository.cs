@@ -12,5 +12,6 @@ namespace Demo.BLL.Interface
      
         // GetEmployeeDyAddress
         IQueryable<Employee>GetEmployeeByAddress(string address);
+        IQueryable<Employee> SearchByName(string name);
     }
 }

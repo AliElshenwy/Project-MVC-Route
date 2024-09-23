@@ -14,8 +14,12 @@ namespace Dome.DAL.Models
         public string Code { get; set; }
         [Required(ErrorMessage ="Name Is Required")]
         public string Name { get; set; }
-
         [Display(Name="Date Of Creation")]
-        public DateTime DateOfCreation { get; set; } 
+        public DateTime DateOfCreation { get; set; }
+        //Navigation Property [Many]
+        public ICollection<Employee> employees { get; set; }=new HashSet<Employee>(); //initialise Date Come in Employee 
+          
+
     }
 }
+//nullabl 
