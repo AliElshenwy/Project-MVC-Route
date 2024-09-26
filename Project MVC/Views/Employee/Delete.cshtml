@@ -7,6 +7,7 @@
 <form  asp-action="Delete" >
     <partial name="PartialView/DetailsDeletedEmployeePartial"></partial>
 
+    <input type="hidden" asp-for="ImageName" />
     <input type="submit" value="Delete" class="btn btn-danger mt-5 " />
     <a asp-action="Index" class="btn btn-light mt-5">Cancel </a>
 

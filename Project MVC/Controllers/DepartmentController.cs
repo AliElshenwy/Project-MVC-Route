@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Hosting;
+using Project_MVC.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Policy;
 
@@ -13,23 +15,36 @@ namespace Project_MVC.Controllers
 {
     public class DepartmentController : Controller
     {
-        private readonly IDepartmentRepository _departmnetRepository;  //Default Null ,//Call DepartmnentRepository 
+        private readonly IUnitOfWork _unitOfWork;
+
+        //private readonly IDepartmentRepository _departmnetRepository;  //Default Null ,//Call DepartmnentRepository 
         private readonly IWebHostEnvironment _env;
 
-        public DepartmentController(IDepartmentRepository repository ,IWebHostEnvironment env)
+        public DepartmentController(IUnitOfWork unitOfWork ,IWebHostEnvironment env)
         {
-            _departmnetRepository = repository;
-           _env = env;
+            _unitOfWork = unitOfWork;
+            //_departmnetRepository = repository;
+            _env = env;
         }
 
-
+        [HttpGet]
         // BaseUrl/department/Index
-        public IActionResult Index()
+        public IActionResult Index(string searchByName)
         {
             // GetAll()
-           var departments =_departmnetRepository.GetAll();
-            
-            return View(departments);
+            if (string.IsNullOrEmpty(searchByName))
+            {
+                var departments = _unitOfWork.DepartmentRepository.GetAll();
+                // var mappedEmp = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeViewModel>>(Employees);
+                  return View(departments);
+            }
+            else
+            {
+                var departments = _unitOfWork.DepartmentRepository.SearchByName(searchByName.ToLower()); //?? string.Empty);
+                // var mappedEmp = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeViewModel>>(Employees);
+                return View(departments);
+            }
+            //return View(departments);
         }
 
         [HttpGet]
@@ -43,8 +58,9 @@ namespace Project_MVC.Controllers
         {
             if (ModelState.IsValid)
             { 
-               var Count = _departmnetRepository.Add(department);
-                if(Count > 0 )
+              _unitOfWork.DepartmentRepository.Add(department);
+             var Count= _unitOfWork.Complete();
+               if(Count > 0 )
                  {
                    return RedirectToAction(nameof(Index));
                  }
@@ -62,7 +78,7 @@ namespace Project_MVC.Controllers
             {
                 return BadRequest();
             }  
-           var department = _departmnetRepository.GetById(id.Value); // Chech Date
+           var department = _unitOfWork.DepartmentRepository.GetById(id.Value); // Chech Date
             if (department == null)
             {
 
@@ -87,7 +103,7 @@ namespace Project_MVC.Controllers
             {
                 return BadRequest();
             }
-            var department = _departmnetRepository.GetById(id.Value); // Chech Date
+            var department = _unitOfWork.DepartmentRepository.GetById(id.Value); // Chech Date
             if (department == null)
             {
                 return NotFound();  //Error 404
@@ -106,7 +122,7 @@ namespace Project_MVC.Controllers
             
             try
             {
-                _departmnetRepository.Update(department);
+                _unitOfWork.DepartmentRepository.Update(department);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception Ex)
@@ -134,7 +150,8 @@ namespace Project_MVC.Controllers
         {
             try
             {
-                _departmnetRepository.Delete(department);
+                _unitOfWork.DepartmentRepository.Delete(department);
+                _unitOfWork.Complete();
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception Ex)

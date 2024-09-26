@@ -17,17 +17,17 @@ namespace Demo.BLL.Repositores
         {
             _DbContext = dbContext;
         }
-        public int Add(T item)
+        public void Add(T item)
         {
            // _DbContext.Set<T>().Add(item);  // State Add 
             _DbContext.Add(item);
-            return _DbContext.SaveChanges();
+           // return _DbContext.SaveChanges();
 
         }
-        public int Delete(T item)
+        public void Delete(T item)
         {
             _DbContext.Remove(item); // State Remove (Deleted)
-            return _DbContext.SaveChanges();
+            //return _DbContext.SaveChanges();
         }
         public IEnumerable<T> GetAll()
         {
@@ -49,10 +49,10 @@ namespace Demo.BLL.Repositores
 
        
 
-        public int Update(T item)
+        public void Update(T item)
         {
             _DbContext.Update(item);
-            return _DbContext.SaveChanges();
+            //return _DbContext.SaveChanges();
         }
     }
 }

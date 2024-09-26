@@ -59,6 +59,7 @@ namespace Dome.DAL.Models
        // [InverseProperty(nameof(Models.Department.employees))]
         public Department department { get; set; }
         public int? DepartmentId { get; set; }
+        public  string  ImageName { get; set; }
 
 
     }

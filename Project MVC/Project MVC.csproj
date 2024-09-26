@@ -19,4 +19,11 @@
     <ProjectReference Include="..\Demo.BLL\Demo.BLL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\Files\Images\34c22ad2-5a60-4bb9-9623-77807eadcd962.jpg" />
+    <None Include="wwwroot\Files\Images\3c780601-f0bf-4d19-8519-a3bc33ffb3bd1.jpg" />
+    <None Include="wwwroot\Files\Images\42501344-33f5-4085-ba9c-1bfd7944c7b51.jpg" />
+    <None Include="wwwroot\Files\Images\8d4f45a3-9f41-4ea9-abee-63357b54f669bg.jpg" />
+  </ItemGroup>
+
 </Project>

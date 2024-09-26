@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Demo.BLL.Interface 
 {
    public interface IDepartmentRepository :GenericRepositort<Department>
-    { 
-        
+    {
+        IQueryable<Department> SearchByName(string name);
     }
 }

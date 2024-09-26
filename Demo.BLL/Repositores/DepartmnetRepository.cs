@@ -16,10 +16,15 @@ namespace Demo.BLL.Repositores
 
         public IDepartmnetRepository(AppDbContext dbComtext ):base(dbComtext)    // Ask CLR For Create Object frpm DbContext
         {
-           // _dbContext = new AppDbContext();
+            // _dbContext = new AppDbContext();
+
+            // _dbContext = dbComtext;   // DJ
            
-          // _dbContext = dbComtext;   // DJ
         }
-        
+
+        public IQueryable<Department> SearchByName(string name)
+        {
+           return _dbContext.Departments.Where(D=>D.Name.ToLower().Contains(name.ToLower()));
+        }
     }
 }

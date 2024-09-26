@@ -1,15 +1,17 @@
 ﻿using Dome.DAL.Data.Configuration;
 using Dome.DAL.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Text; 
 using System.Threading.Tasks;
 
 namespace Dome.DAL.Data
 {
- public class AppDbContext : DbContext
+ public class AppDbContext :IdentityDbContext
     {
 
         public AppDbContext(DbContextOptions<AppDbContext> options):base(options)      
@@ -29,8 +31,14 @@ namespace Dome.DAL.Data
 
             modelBuilder.ApplyConfigurationsFromAssembly(System.Reflection.Assembly.GetExecutingAssembly());  // All Configuration 
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<IdentityRole>().ToTable("Roles");
+            modelBuilder.Entity<IdentityUser>().ToTable("User");
         }
        public DbSet<Department>Departments { get; set; }
        public DbSet<Employee> Employees { get; set; }
+
+        public IdentityUser User { get; set; }
+        public IdentityRole Role { get; set; }
     }
 }

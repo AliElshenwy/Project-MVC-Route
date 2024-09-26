@@ -3,7 +3,19 @@
 <h1>All Departments </h1>
 <br />
 <br />
-<a asp-controller="Department" asp-action="Create" class=" btn btn-primary"> Create New Department</a>
+
+<div>
+    <form class="d-flex" asp-action="Index">
+
+        <div class="col-8">
+            <input class="form-control " type="text" name="searchByName" placeholder="Search By Name ... ">
+        </div>
+        <div>
+            <input type="submit" value="search" class="btn btn-success">
+        </div>
+    </form>
+</div>
+<a asp-controller="Department" asp-action="Create" class=" btn btn-primary mt-5"> Create New Department</a>
  
 @if(Model.Count()>0)
 {

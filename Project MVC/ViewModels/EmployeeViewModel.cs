@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System;
+using Microsoft.AspNetCore.Http;
 
 namespace Project_MVC.ViewModels
 {
@@ -47,8 +48,8 @@ namespace Project_MVC.ViewModels
             public string Email { get; set; }
 
 
-            [Phone]
-            [Display(Name = "Phone Number")]
+            //[Phone]
+            //[Display(Name = "Phone Number")]
             public int PhoneNumber { get; set; }
 
 
@@ -65,5 +66,7 @@ namespace Project_MVC.ViewModels
             //[InverseProperty(nameof(Models.Department.employees))]
             public Department department { get; set; }
             public int? DepartmentId { get; set; }
-        }
+        public IFormFile Image { get; set; }
+        public string ImageName { get; set; }
     }
+  }

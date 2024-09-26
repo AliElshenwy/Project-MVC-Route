@@ -5,25 +5,29 @@ using Dome.DAL.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
+using Project_MVC.Helpers;
 using Project_MVC.ViewModels;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 
 namespace Project_MVC.Controllers
 {
     public class EmployeeController: Controller
     {
-        private readonly IEmployeeRepository _EmployeeRepository;  //Default Null ,//Call DepartmnentRepository 
+       // private readonly IEmployeeRepository _EmployeeRepository;  //Default Null ,//Call DepartmnentRepository 
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IWebHostEnvironment _env;
         private readonly IMapper _mapper;
 
         // private readonly IDepartmentRepository _departmentRepository;
 
-        public EmployeeController(IEmployeeRepository repository, IWebHostEnvironment env /*IDepartmentRepository departmentRepository*/ , IMapper mapper
+        public EmployeeController(IUnitOfWork unitOfWork, IWebHostEnvironment env /*IDepartmentRepository departmentRepository*/ , IMapper mapper
             )
         {
-            _EmployeeRepository = repository;
+            //_EmployeeRepository = repository;
+            _unitOfWork = unitOfWork;
             _env = env;
             _mapper = mapper;
             // _departmentRepository = departmentRepository;
@@ -31,22 +35,21 @@ namespace Project_MVC.Controllers
         // BaseUrl/Employee/Index
 
        [HttpGet]
-        public IActionResult Index(string searchInp)
+        public IActionResult Index(string searchByName)
         {
-            if (string.IsNullOrEmpty(searchInp))
+            if(string.IsNullOrEmpty(searchByName))
             {
-                var Employees = _EmployeeRepository.GetAll();
+                var Employees = _unitOfWork.EmployeeRepository.GetAll();
                 var mappedEmp = _mapper.Map< IEnumerable<Employee>, IEnumerable<EmployeeViewModel> > (Employees);
                 return View(mappedEmp);
             }
             else
             {
-
-                var Employees = _EmployeeRepository.SearchByName(searchInp.ToLower());
+                var Employees = _unitOfWork.EmployeeRepository.SearchByName(searchByName?.ToLower() ?? string.Empty);
                 var mappedEmp = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeViewModel>>(Employees);
                 return View(mappedEmp);
             }
-
+            
             // GetAll()
             // var Employees = _EmployeeRepository.GetAll();
             //Binding Through View Dictionary :Transfer Data From Action to View
@@ -68,12 +71,13 @@ namespace Project_MVC.Controllers
       //  [HttpPost]
         public IActionResult Create(EmployeeViewModel EmployeeVM)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                var mappedEmp = _mapper.Map<EmployeeViewModel ,Employee>(EmployeeVM);
-                //3. TempData  ==> Action to Action 
-
-                var Count = _EmployeeRepository.Add(mappedEmp);
+                //3. TempData  ==> Action to Action
+             EmployeeVM.ImageName = DocumentSettings.UploadFile(EmployeeVM.Image, "Images");
+                var mappedEmp = _mapper.Map<EmployeeViewModel, Employee>(EmployeeVM);
+                _unitOfWork.EmployeeRepository.Add(mappedEmp);
+                var Count= _unitOfWork.Complete();//SeveChenage
                 if (Count > 0)
                 {
                     TempData["Message"] = "Employee Created Succefully ";
@@ -96,11 +100,11 @@ namespace Project_MVC.Controllers
                 
                 return BadRequest();
             }
-            var Employee = _EmployeeRepository.GetById(id.Value); // Chech Date
+            var Employee = _unitOfWork.EmployeeRepository.GetById(id.Value); // Chech Date
             //ViewBag.Departments = _departmentRepository.GetAll();
+
             if (Employee == null)
             {
-                
                 return NotFound();  //Error 404
             }
             var mappedEmp = _mapper.Map<Employee, EmployeeViewModel>(Employee);
@@ -145,8 +149,10 @@ namespace Project_MVC.Controllers
 
             try
             {
+                EmployeeVM.ImageName = DocumentSettings.UploadFile(EmployeeVM.Image, "Images");
                 var mappedEmp = _mapper.Map<EmployeeViewModel, Employee>(EmployeeVM);
-                _EmployeeRepository.Update(mappedEmp);
+                _unitOfWork.EmployeeRepository.Update(mappedEmp);
+                var Count = _unitOfWork.Complete();//SeveChenage
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception Ex)
@@ -161,14 +167,12 @@ namespace Project_MVC.Controllers
                 }
                 return View(EmployeeVM);
             }
-            
         }
         [HttpGet]
         public IActionResult Delete(int? id)
         {
             return Details(id, "Delete");
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(EmployeeViewModel EmployeeVM)
@@ -176,7 +180,11 @@ namespace Project_MVC.Controllers
             try
             {
                 var mappedEmp = _mapper.Map<EmployeeViewModel, Employee>(EmployeeVM);
-                _EmployeeRepository.Delete(mappedEmp);
+                _unitOfWork.EmployeeRepository.Delete(mappedEmp);
+                var Count = _unitOfWork.Complete();//SeveChenage
+                DocumentSettings.DeleteFile(EmployeeVM.ImageName ,"Images");
+
+
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception Ex)
